@@ -12,24 +12,16 @@ class Customer {
     private String companyName;
     private String address;
     private String country;
-    //private CustomerContact contact;
+    private CustomerContact contact;
 
     //constructors
     Customer() {}
-    Customer(String companyName, String address, String country) {
+    Customer(String companyName, String address, String country, String name, String phone, String email, String position) {
         this.companyName = companyName;
         this.address = address;
         this.country = country;
-        //this.contact = Null
+        this.contact = new CustomerContact(name, phone ,email, position);
     }
-    /*
-    Customer(String companyName, String address, String country, CustomerContact contact) {
-        this.companyName = companyName;
-        this.address = address;
-        this.country = country;
-        this.contact = contact;
-    }
-    */
 
     //getter methods
     public Long getId() {

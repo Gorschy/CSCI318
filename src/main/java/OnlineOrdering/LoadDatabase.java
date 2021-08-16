@@ -16,8 +16,8 @@ class LoadDatabase {
 
     //String companyName, String address, String country
     return args -> {
-      log.info("Preloading " + repository.save(new Customer("Fake Company", "123 Fake Street", "Australia")));
-      log.info("Preloading " + repository.save(new Customer("Not Real Company", "456 Not Real Avenue", "America")));
+      log.info("Preloading " + repository.save(new Customer("Fake Company", "123 Fake Street", "Australia", new CustomerContact("Bilbo Baggins", "0474597599", "bilbo@email.com", "Team Lead"))));
+      log.info("Preloading " + repository.save(new Customer("Not Real Company", "456 Not Real Avenue", "America", new CustomerContact("Frodo Baggins", "64942096", "frodo@email.com", "Not Team Lead"))));
     };
   }
 }
