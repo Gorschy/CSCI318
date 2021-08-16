@@ -5,7 +5,6 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 class Customer {
@@ -13,9 +12,7 @@ class Customer {
     private String companyName;
     private String address;
     private String country;
-
-    @OneToOne
-    private CustomerContact contact;
+    //private CustomerContact contact;
 
     //constructors
     Customer() {}
@@ -23,7 +20,16 @@ class Customer {
         this.companyName = companyName;
         this.address = address;
         this.country = country;
+        //this.contact = Null
     }
+    /*
+    Customer(String companyName, String address, String country, CustomerContact contact) {
+        this.companyName = companyName;
+        this.address = address;
+        this.country = country;
+        this.contact = contact;
+    }
+    */
 
     //getter methods
     public Long getId() {
@@ -38,9 +44,11 @@ class Customer {
     public String getCountry() {
         return this.country;
     }
+    /*
     public CustomerContact getContact() {
         return this.contact;
     }
+    */
 
     //setter methods
     public void setId(Long id) {
@@ -55,9 +63,11 @@ class Customer {
     public void setCountry(String country) {
         this.country = country;
     }
+    /*
     public void setContact(CustomerContact contact) {
         this.contact = contact;
     }
+    */
 
     //overrides
     @Override
@@ -70,15 +80,15 @@ class Customer {
         return Objects.equals(this.id, customer.id) &&
                Objects.equals(this.companyName, customer.companyName) &&
                Objects.equals(this.address, customer.address) &&
-               Objects.equals(this.country, customer.country) &&
-               Objects.equals(this.contact, customer.contact);
+               Objects.equals(this.country, customer.country);  /*&&
+               Objects.equals(this.contact, customer.contact);*/
     }
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.companyName, this.address, this.country, this.contact);
+        return Objects.hash(this.id, this.companyName, this.address, this.country/*, this.contact*/);
     }
     @Override
     public String toString() {
-        return "Customer{" + "id=" + this.id + ", company name='" + this.companyName + '\'' + ", address='" + this.address + '\'' + ", country='" + this.country  + '\'' + ", contact='" + this.contact + '\''  + '}';
+        return "Customer{" + "id=" + this.id + ", company name='" + this.companyName + '\'' + ", address='" + this.address + '\'' + ", country='" + this.country /* + '\'' + ", contact='" + this.contact + '\'' */ + '}';
         }
 }

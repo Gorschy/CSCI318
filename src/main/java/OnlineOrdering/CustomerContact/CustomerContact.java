@@ -1,12 +1,16 @@
 package OnlineOrdering;
 
 import java.util.Objects;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 
 @Entity
 class CustomerContact {
 
+  private @Id @GeneratedValue Long id;
   private String name;
   private long phone;
   private String email;
@@ -19,6 +23,10 @@ class CustomerContact {
     this.phone = phone;
     this.email = email;
     this.position = position;
+  }
+
+  public Long getId() {
+    return this.id;
   }
 
   public String getName() {
@@ -37,6 +45,10 @@ class CustomerContact {
     return this.position;
   }
 
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public void setName(String name) {
     this.name = name;
@@ -62,18 +74,20 @@ class CustomerContact {
     if (!(o instanceof CustomerContact))
       return false;
     CustomerContact customerContact = (CustomerContact) o;
-    return Objects.equals(this.name, customerContact.name)
-        && Objects.equals(this.phone, customerContact.phone) && Objects.equals(this.email, customerContact.email) 
+    return Objects.equals(this.id, customerContact.id)
+        && Objects.equals(this.name, customerContact.name)
+        && Objects.equals(this.phone, customerContact.phone) 
+        && Objects.equals(this.email, customerContact.email) 
         && Objects.equals(this.position, customerContact.position) ;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.name, this.phone, this.email, this.position);
+    return Objects.hash(this.id, this.name, this.phone, this.email, this.position);
   }
 
   @Override
   public String toString() {
-    return "CustomerContact{" + "name='" + this.name + '\'' + ", phone='" + this.phone + '\'' +  ", email='" + this.email + '\'' + ", position='" + this.position + '\'' +'}';
+    return "CustomerContact{" + "id='" + this.id + '\'' + "name='" + this.name + '\'' + ", phone='" + this.phone + '\'' +  ", email='" + this.email + '\'' + ", position='" + this.position + '\'' +'}';
   }
 }

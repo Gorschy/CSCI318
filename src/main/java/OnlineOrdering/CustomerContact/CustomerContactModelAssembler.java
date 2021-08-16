@@ -13,7 +13,7 @@ class CustomerContactModelAssembler implements RepresentationModelAssembler<Cust
   public EntityModel<CustomerContact> toModel(CustomerContact contact) {
 
     return EntityModel.of(contact, //
-        linkTo(methodOn(CustomerContactController.class).one(contact.getPhone())).withSelfRel(),
+        linkTo(methodOn(CustomerContactController.class).one(contact.getId())).withSelfRel(),
         linkTo(methodOn(CustomerContactController.class).all()).withRel("contacts"));
   }
 }

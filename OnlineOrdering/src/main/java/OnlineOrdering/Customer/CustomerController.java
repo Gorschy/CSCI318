@@ -19,21 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 class CustomerController {
-    private final CustomerRepository custRepository;
-    private final CustomerContactRepository contRepository;
-    private final CustomerModelAssembler custAssembler;
-    private final CustomerContactModelAssembler contAssmbler;
+    private final CustomerRepository repository;
+    private final CustomerModelAssembler assembler;
 
-    CustomerController(CustomerRepository custRepository, CustomerContactRepository contRepository, CustomerModelAssembler custAssembler, CustomerContactModelAssembler contAssmbler) {
-        this.custRepository = custRepository;
-        this.custAssembler = custAssembler;
-        this.contRepository = contRepository;
-        this.contAssmbler = contAssmbler;
+    CustomerController(CustomerRepository repository, CustomerModelAssembler assembler) {
+        this.repository = repository;
+        this.assembler = assembler;
     }
 
     @GetMapping("/customers")
     CollectionModel<EntityModel<Customer>> all(){
-        List<EntityModel<Customer>> customers = custRepository.findAll().stream().map(custAssembler::toModel).collect(Collectors.toList());
+        List<EntityModel<Customer>> customers = repository.findAll().stream().map(assembler::toModel).collect(Collectors.toList());
 
         return CollectionModel.of(customers,
             linkTo(methodOn(CustomerController.class).all()).withSelfRel());
@@ -41,39 +37,39 @@ class CustomerController {
 
     @GetMapping("/customers/{id}")
     EntityModel<Customer> one(@PathVariable Long id){
-        Customer customer = custRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+        Customer customer = repository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
 
-        return custAssembler.toModel(customer);
+        return assembler.toModel(customer);
     }
 
     @PostMapping("/customers")
     ResponseEntity<?> newCustomer(@RequestBody Customer newCustomer){
-        EntityModel<Customer> entityModel = custAssembler.toModel(custRepository.save(newCustomer));
+        EntityModel<Customer> entityModel = assembler.toModel(repository.save(newCustomer));
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
     @PutMapping("/customers/{id}")
     ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id){
-        Customer updatedCustomer = custRepository.findById(id).map(customer -> {
+        Customer updatedCustomer = repository.findById(id).map(customer -> {
             customer.setCompanyName(newCustomer.getCompanyName());
             customer.setAddress(newCustomer.getAddress());
             customer.setCountry(newCustomer.getCountry());
-            customer.setContact(newCustomer.getContact());
-            return custRepository.save(customer);
+            //customer.setContact(newCustomer.setContact());
+            return repository.save(customer);
         }).orElseGet(() -> {
             newCustomer.setId(id);
-            return custRepository.save(newCustomer);
+            return repository.save(newCustomer);
         });
 
-        EntityModel<Customer> entityModel = custAssembler.toModel(updatedCustomer);
+        EntityModel<Customer> entityModel = assembler.toModel(updatedCustomer);
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
     @DeleteMapping("/customers/{id}")
     ResponseEntity<?> deleteCustomer(@PathVariable Long id){
-        custRepository.deleteById(id);
+        repository.deleteById(id);
         
         return ResponseEntity.noContent().build();
     }
