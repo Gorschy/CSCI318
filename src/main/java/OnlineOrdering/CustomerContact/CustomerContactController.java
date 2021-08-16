@@ -72,7 +72,7 @@ class CustomerContactController {
         return repository.save(customerContact);
       })
       .orElseGet(() -> {
-        newCustomerContact.setId(id);
+        newCustomerContact.setPhone(id);
         return repository.save(newCustomerContact);
       });
   }

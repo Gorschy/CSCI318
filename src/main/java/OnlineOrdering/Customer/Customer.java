@@ -16,11 +16,20 @@ class Customer {
 
     //constructors
     Customer() {}
-    Customer(String companyName, String address, String country, String name, String phone, String email, String position) {
+    /*
+    Customer(String companyName, String address, String country) {
         this.companyName = companyName;
         this.address = address;
         this.country = country;
-        this.contact = new CustomerContact(name, phone ,email, position);
+        //this.contact = Null
+    }*/
+
+
+    Customer(String companyName, String address, String country, CustomerContact contact) {
+        this.companyName = companyName;
+        this.address = address;
+        this.country = country;
+        this.contact = contact;
     }
 
     //getter methods

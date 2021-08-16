@@ -8,13 +8,13 @@ import javax.persistence.Entity;
 class CustomerContact {
 
   private String name;
-  private String phone;
+  private long phone;
   private String email;
   private String position;
 
   CustomerContact() {}
 
-  CustomerContact(String name, String phone, String email, String position) {
+  CustomerContact(String name, long phone, String email, String position) {
     this.name = name;
     this.phone = phone;
     this.email = email;
@@ -25,7 +25,7 @@ class CustomerContact {
     return this.name;
   }
 
-  public String getPhone() {
+  public long getPhone() {
     return this.phone;
   }
 
@@ -42,7 +42,7 @@ class CustomerContact {
     this.name = name;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(long phone) {
     this.phone = phone;
   }
 
