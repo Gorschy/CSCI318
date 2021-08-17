@@ -1,13 +1,9 @@
-package com.example.demo.controller;
+package OnlineOrdering;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.example.demo.model.Customer;
-import com.example.demo.repository.CustomerContactRepository;
-import com.example.demo.repository.CustomerRepository;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -35,6 +31,7 @@ class CustomerController {
         this.contAssmbler = contAssmbler;
     }
 
+    // find all customers in system 
     @GetMapping("/customers")
     CollectionModel<EntityModel<Customer>> all(){
         List<EntityModel<Customer>> customers = custRepository.findAll().stream().map(custAssembler::toModel).collect(Collectors.toList());
@@ -43,6 +40,7 @@ class CustomerController {
             linkTo(methodOn(CustomerController.class).all()).withSelfRel());
     }
 
+    // find one customer in system by id
     @GetMapping("/customers/{id}")
     EntityModel<Customer> one(@PathVariable Long id){
         Customer customer = custRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
@@ -50,6 +48,7 @@ class CustomerController {
         return custAssembler.toModel(customer);
     }
 
+    // create a new customer
     @PostMapping("/customers")
     ResponseEntity<?> newCustomer(@RequestBody Customer newCustomer){
         EntityModel<Customer> entityModel = custAssembler.toModel(custRepository.save(newCustomer));
@@ -57,13 +56,14 @@ class CustomerController {
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
+    // update an existing custoemr
     @PutMapping("/customers/{id}")
     ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id){
         Customer updatedCustomer = custRepository.findById(id).map(customer -> {
             customer.setCompanyName(newCustomer.getCompanyName());
             customer.setAddress(newCustomer.getAddress());
             customer.setCountry(newCustomer.getCountry());
-            customer.setCustomerContact(newCustomer.getCustomerContact());
+            customer.setContact(newCustomer.getContact());
             return custRepository.save(customer);
         }).orElseGet(() -> {
             newCustomer.setId(id);
@@ -75,6 +75,7 @@ class CustomerController {
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
+    // delete a customer based on id
     @DeleteMapping("/customers/{id}")
     ResponseEntity<?> deleteCustomer(@PathVariable Long id){
         custRepository.deleteById(id);
@@ -82,4 +83,15 @@ class CustomerController {
         return ResponseEntity.noContent().build();
     }
 
+    // join a contact object to a customer object
+    @PutMapping("/customers/{custId}/contact/{contId}")
+    ResponseEntity<?> joinContactCustomer(@PathVariable("custId") Long custId, @PathVariable("contId") Long contId){
+        Customer customer = custRepository.findById(custId).orElseThrow(() -> new CustomerNotFoundException(custId));
+        CustomerContact contact = contRepository.findById(contId).orElseThrow(() -> new CustomerNotFoundException(contId));
+
+        customer.setContact(contact);
+        custRepository.save(customer);
+        EntityModel<Customer> entityModel = custAssembler.toModel(customer);
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
 }

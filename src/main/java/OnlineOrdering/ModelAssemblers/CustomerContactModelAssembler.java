@@ -1,8 +1,6 @@
-package com.example.demo.controller;
+package OnlineOrdering;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-import com.example.demo.model.CustomerContact;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
