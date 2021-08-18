@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class CustomerController {
     private final CustomerRepository custRepository;
-    private final CustomerContactRepository contRepository;
+    private final ContactRepository contRepository;
     private final CustomerModelAssembler custAssembler;
-    private final CustomerContactModelAssembler contAssmbler;
+    private final ContactModelAssembler contAssmbler;
 
-    CustomerController(CustomerRepository custRepository, CustomerContactRepository contRepository, CustomerModelAssembler custAssembler, CustomerContactModelAssembler contAssmbler) {
+    CustomerController(CustomerRepository custRepository, ContactRepository contRepository, CustomerModelAssembler custAssembler, ContactModelAssembler contAssmbler) {
         this.custRepository = custRepository;
         this.custAssembler = custAssembler;
         this.contRepository = contRepository;
@@ -87,7 +87,7 @@ class CustomerController {
     @PutMapping("/customers/{custId}/contact/{contId}")
     ResponseEntity<?> joinContactCustomer(@PathVariable("custId") Long custId, @PathVariable("contId") Long contId){
         Customer customer = custRepository.findById(custId).orElseThrow(() -> new CustomerNotFoundException(custId));
-        CustomerContact contact = contRepository.findById(contId).orElseThrow(() -> new CustomerNotFoundException(contId));
+        Contact contact = contRepository.findById(contId).orElseThrow(() -> new CustomerNotFoundException(contId));
 
         customer.setContact(contact);
         custRepository.save(customer);

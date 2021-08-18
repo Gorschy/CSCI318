@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 
 @Entity
-class CustomerContact {
+class Contact {
 
   private @Id @GeneratedValue Long id;
   private String name;
@@ -16,9 +16,9 @@ class CustomerContact {
   private String email;
   private String position;
 
-  CustomerContact() {}
+  Contact() {}
 
-  CustomerContact(String name, long phone, String email, String position) {
+  Contact(String name, long phone, String email, String position) {
     this.name = name;
     this.phone = phone;
     this.email = email;
@@ -71,14 +71,14 @@ class CustomerContact {
 
     if (this == o)
       return true;
-    if (!(o instanceof CustomerContact))
+    if (!(o instanceof Contact))
       return false;
-    CustomerContact customerContact = (CustomerContact) o;
-    return Objects.equals(this.id, customerContact.id)
-        && Objects.equals(this.name, customerContact.name)
-        && Objects.equals(this.phone, customerContact.phone) 
-        && Objects.equals(this.email, customerContact.email) 
-        && Objects.equals(this.position, customerContact.position) ;
+      Contact contact = (Contact) o;
+    return Objects.equals(this.id, contact.id)
+        && Objects.equals(this.name, contact.name)
+        && Objects.equals(this.phone, contact.phone) 
+        && Objects.equals(this.email, contact.email) 
+        && Objects.equals(this.position, contact.position) ;
   }
 
   @Override
@@ -88,6 +88,6 @@ class CustomerContact {
 
   @Override
   public String toString() {
-    return "CustomerContact{" + "id='" + this.id + '\'' + "name='" + this.name + '\'' + ", phone='" + this.phone + '\'' +  ", email='" + this.email + '\'' + ", position='" + this.position + '\'' +'}';
+    return "Contact{" + "id='" + this.id + '\'' + "name='" + this.name + '\'' + ", phone='" + this.phone + '\'' +  ", email='" + this.email + '\'' + ", position='" + this.position + '\'' +'}';
   }
 }

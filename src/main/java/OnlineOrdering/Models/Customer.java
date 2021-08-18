@@ -15,7 +15,7 @@ class Customer {
     private String country;
 
     @OneToOne
-    private CustomerContact contact;
+    private Contact contact;
 
     //constructors
     Customer() {}
@@ -38,7 +38,7 @@ class Customer {
     public String getCountry() {
         return this.country;
     }
-    public CustomerContact getContact() {
+    public Contact getContact() {
         return this.contact;
     }
 
@@ -55,7 +55,7 @@ class Customer {
     public void setCountry(String country) {
         this.country = country;
     }
-    public void setContact(CustomerContact contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
