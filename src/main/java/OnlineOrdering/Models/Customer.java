@@ -1,3 +1,16 @@
+/*
+ * - Product.java (Product class, modelled after the Customer.java, stored in the models file)
+- ProductModelAssembler.java (Same as the CustomerModelAssembler.java, replace customer with product)
+- ProductRepository.java (Same as CustomerRepository.java, replace customer with product)
+- ProductController.java (Same as CustomerController.java, replace customer with product)
+- ProductNotFoundException.java, and ProductNotFoundAdvice.java (same as the Customer error handelling stuffs)
+ * 
+ * 
+ */
+
+
+
+
 package OnlineOrdering;
 
 import java.util.Objects;
