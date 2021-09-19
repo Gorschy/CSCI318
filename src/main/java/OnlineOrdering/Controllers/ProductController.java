@@ -24,7 +24,7 @@ class ProductController {
     
 
 
-    ProductController(ProductRepository prodRepository,ProductModelAssembler prodAssembler, ProductDetailsRepository prodDetsRepository,ProductDetailsModelAssembler prodDetsAssembler ) {
+    ProductController(ProductRepository prodRepository,ProductModelAssembler prodAssembler) {
         this.prodAssembler = prodAssembler;
         this.prodRepository = prodRepository;
     

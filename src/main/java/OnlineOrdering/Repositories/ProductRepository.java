@@ -1,4 +1,4 @@
-package OnlineOrdering.Repositories;
+package OnlineOrdering;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
