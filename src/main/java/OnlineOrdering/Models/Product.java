@@ -8,7 +8,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 class Product {
-    private @Id @GeneratedValue long id;
+    private @Id @GeneratedValue long prodId;
     private String productCategory;
     private String name;
     private double price;
@@ -29,7 +29,7 @@ class Product {
 
     //getter methods
     public Long getId() {
-        return this.id;
+        return this.prodId;
     }
     
     public String getProductCategory() {
@@ -50,8 +50,8 @@ class Product {
    
 
     //setter methods
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long prodId) {
+        this.prodId = prodId;
     }
     
     public void setProductCategory(String productCategory) {
@@ -79,7 +79,7 @@ class Product {
         if (!(o instanceof Product))
             return false;
         Product product = (Product) o;
-        return Objects.equals(this.id, product.id) &&
+        return Objects.equals(this.prodId, product.prodId) &&
                Objects.equals(this.productCategory, product.productCategory) &&
                Objects.equals(this.name, product.name) &&
                Objects.equals(this.price, product.price) &&
@@ -87,10 +87,10 @@ class Product {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.productCategory, this.name, this.price, this.stockQuantity);
+        return Objects.hash(this.prodId, this.productCategory, this.name, this.price, this.stockQuantity);
     }
     @Override
     public String toString() {
-        return "Product{" + "id=" + this.id + ", Product Category='" + this.productCategory + '\'' + ", name='" + this.name + '\'' + ", price='" + this.price  + '\'' + ", Stock Quantity='" + this.stockQuantity + '\''  + '}';
+        return "Product{" + "id=" + this.prodId + ", Product Category='" + this.productCategory + '\'' + ", name='" + this.name + '\'' + ", price='" + this.price  + '\'' + ", Stock Quantity='" + this.stockQuantity + '\''  + '}';
         }
 }

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 class Contact {
 
-  private @Id @GeneratedValue Long id;
+  private @Id @GeneratedValue Long contId;
   private String name;
   private long phone;
   private String email;
@@ -26,7 +26,7 @@ class Contact {
   }
 
   public Long getId() {
-    return this.id;
+    return this.contId;
   }
 
   public String getName() {
@@ -46,8 +46,8 @@ class Contact {
   }
 
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setId(Long contId) {
+    this.contId = contId;
   }
 
   public void setName(String name) {
@@ -74,7 +74,7 @@ class Contact {
     if (!(o instanceof Contact))
       return false;
       Contact contact = (Contact) o;
-    return Objects.equals(this.id, contact.id)
+    return Objects.equals(this.contId, contact.contId)
         && Objects.equals(this.name, contact.name)
         && Objects.equals(this.phone, contact.phone) 
         && Objects.equals(this.email, contact.email) 
@@ -83,11 +83,11 @@ class Contact {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.id, this.name, this.phone, this.email, this.position);
+    return Objects.hash(this.contId, this.name, this.phone, this.email, this.position);
   }
 
   @Override
   public String toString() {
-    return "Contact{" + "id='" + this.id + '\'' + "name='" + this.name + '\'' + ", phone='" + this.phone + '\'' +  ", email='" + this.email + '\'' + ", position='" + this.position + '\'' +'}';
+    return "Contact{" + "id='" + this.contId + '\'' + "name='" + this.name + '\'' + ", phone='" + this.phone + '\'' +  ", email='" + this.email + '\'' + ", position='" + this.position + '\'' +'}';
   }
 }

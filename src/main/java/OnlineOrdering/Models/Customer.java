@@ -22,7 +22,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 class Customer {
-    private @Id @GeneratedValue long id;
+    private @Id @GeneratedValue long custId;
     private String companyName;
     private String address;
     private String country;
@@ -40,7 +40,7 @@ class Customer {
 
     //getter methods
     public Long getId() {
-        return this.id;
+        return this.custId;
     }
     public String getCompanyName() {
         return this.companyName;
@@ -56,8 +56,8 @@ class Customer {
     }
 
     //setter methods
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long custId) {
+        this.custId = custId;
     }
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
@@ -80,7 +80,7 @@ class Customer {
         if (!(o instanceof Customer))
             return false;
         Customer customer = (Customer) o;
-        return Objects.equals(this.id, customer.id) &&
+        return Objects.equals(this.custId, customer.custId) &&
                Objects.equals(this.companyName, customer.companyName) &&
                Objects.equals(this.address, customer.address) &&
                Objects.equals(this.country, customer.country) &&
@@ -88,10 +88,10 @@ class Customer {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.companyName, this.address, this.country, this.contact);
+        return Objects.hash(this.custId, this.companyName, this.address, this.country, this.contact);
     }
     @Override
     public String toString() {
-        return "Customer{" + "id=" + this.id + ", company name='" + this.companyName + '\'' + ", address='" + this.address + '\'' + ", country='" + this.country  + '\'' + ", contact='" + this.contact + '\''  + '}';
+        return "Customer{" + "id=" + this.custId + ", company name='" + this.companyName + '\'' + ", address='" + this.address + '\'' + ", country='" + this.country  + '\'' + ", contact='" + this.contact + '\''  + '}';
         }
 }
