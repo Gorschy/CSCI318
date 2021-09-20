@@ -19,8 +19,8 @@ class LoadDatabase {
       log.info("Preloading " + custRepository.save(new Customer("Not Real Company", "456 Not Real Avenue", "America")));
       log.info("Preloading " + contRepository.save(new Contact("Test Name", 412345678L, "fake@email.com", "Role")));
       log.info("Preloading " + contRepository.save(new Contact("Tester Namer", 412345678L, "not_real@email.com", "Position")));
-
       log.info("Preloading " + prodRepository.save(new Product("Food", "KekW Cereal", 3.45, 24)));
+      log.info("Preloading " + prodRepository.save(new Product("Drink", "Mountain Dew", 2, 120)));
     };
   }
 }
