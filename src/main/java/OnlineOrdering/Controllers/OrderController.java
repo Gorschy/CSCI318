@@ -55,7 +55,7 @@ class OrderController {
     }
 
     //find one order by orderId
-    @GetMapping("/orders/{id}")
+    @GetMapping("/order/{id}")
     EntityModel<OrderEnt> one(@PathVariable("id") Long id) {
         OrderEnt order = oRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
         
@@ -63,7 +63,7 @@ class OrderController {
     }
 
     //get customer info from order
-    @GetMapping("/orders/{id}/customer")
+    @GetMapping("/order/{id}/customer")
     EntityModel<Customer> findCustumer(@PathVariable("id") Long id) {
         OrderEnt order = oRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
         Customer customer = cRepository.findById(order.getCustomer().getId()).orElseThrow(() -> new CustomerNotFoundException(order.getCustomer().getId()));
@@ -72,7 +72,7 @@ class OrderController {
     }
 
     //get product info from order
-    @GetMapping("/orders/{id}/product")
+    @GetMapping("/order/{id}/product")
     EntityModel<Product> findProduct(@PathVariable("id") Long id) {
         OrderEnt order = oRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
         Product product = pRepository.findById(order.getProduct().getId()).orElseThrow(() -> new CustomerNotFoundException(order.getProduct().getId()));
