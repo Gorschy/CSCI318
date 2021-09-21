@@ -1,5 +1,4 @@
 package OnlineOrdering;
-
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +12,9 @@ class Product {
     private String name;
     private double price;
     private int stockQuantity;
-
-
-
+ 
+    @OneToOne
+    private ProductDetail productDetail;
 
     //constructors
     Product() {}
@@ -70,6 +69,9 @@ class Product {
     	this.stockQuantity = stockQuantity;
     }
     
+    public void setProductDetail(ProductDetail productDetail) {
+        this.productDetail = productDetail;
+    }
     
     //overrides
     @Override

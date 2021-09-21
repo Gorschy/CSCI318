@@ -20,14 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class ProductController {
     private final ProductRepository prodRepository;
+    private final ProductDetailRepository prodDetailRepository;
     private final ProductModelAssembler prodAssembler;
-    
+    private final ProductDetailModelAssembler prodDetailAssembler;
 
 
-    ProductController(ProductRepository prodRepository,ProductModelAssembler prodAssembler) {
-        this.prodAssembler = prodAssembler;
+    ProductController(ProductRepository prodRepository, ProductDetailRepository prodDetailRepository, ProductModelAssembler prodAssembler, ProductDetailModelAssembler prodDetailAssembler) {
         this.prodRepository = prodRepository;
-    
+        this.prodDetailRepository = prodDetailRepository;
+        this.prodAssembler = prodAssembler;
+        this.prodDetailAssembler = prodDetailAssembler;
     }
 
     // find all product in system 
@@ -57,7 +59,7 @@ class ProductController {
 
     // update an existing product
     @PutMapping("/products/{id}")
-    ResponseEntity<?> replaceCustomer(@RequestBody Product newProduct, @PathVariable Long id){
+    ResponseEntity<?> replaceProduct(@RequestBody Product newProduct, @PathVariable Long id){
     	Product updatedProduct = prodRepository.findById(id).map(product -> {
     		product.setProductCategory(newProduct.getProductCategory());
     		product.setName(newProduct.getName());
@@ -81,5 +83,17 @@ class ProductController {
         
         return ResponseEntity.noContent().build();
     }
+    // Error with findById being accessed from a non-static context.
+    // join a contact object to a customer object
+    @PutMapping("/products/{prodId}/productDetails/{prodDetailId}")
+    ResponseEntity<?> joinProductDetailProduct(@PathVariable("prodId") Long prodId, @PathVariable("prodDetailId") Long prodDetailId){
+        Product product = prodRepository.findById(prodId).orElseThrow(() -> new ProductNotFoundException(prodId));
+        ProductDetail productDetail = prodDetailRepository.findById(prodDetailId).orElseThrow(() -> new ProductDetailNotFoundException(prodDetailId));
 
+        product.setProductDetail(productDetail);
+        prodRepository.save(product);
+        EntityModel<Product> entityModel = prodAssembler.toModel(product);
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+    
 }
