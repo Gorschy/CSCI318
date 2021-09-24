@@ -1,4 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Controllers;
+import OnlineOrdering.Models.*;
+import OnlineOrdering.ModelAssemblers.*;
+import OnlineOrdering.Repositories.*;
+import OnlineOrdering.ErrorHandling.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class ContactController {
+public class ContactController {
 
   private final ContactRepository repository;
   private final ContactModelAssembler assembler;
@@ -32,7 +36,7 @@ class ContactController {
   // Aggregate root
   // tag::get-aggregate-root[]
   @GetMapping("/contacts")
-  CollectionModel<EntityModel<Contact>> all() {
+  public CollectionModel<EntityModel<Contact>> all() {
 
     List<EntityModel<Contact>> contact = repository.findAll().stream() //
         .map(assembler::toModel) //
@@ -43,7 +47,7 @@ class ContactController {
 
   // Single item
   @GetMapping("/contacts/{id}")
-  EntityModel<Contact> one(@PathVariable Long id) {
+  public EntityModel<Contact> one(@PathVariable Long id) {
 
     Contact contact = repository.findById(id) //
         .orElseThrow(() -> new ContactNotFoundException(id));

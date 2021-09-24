@@ -1,7 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Repositories;
+import OnlineOrdering.Models.OrderEnt;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface OrderRepository extends JpaRepository<OrderEnt, Long> {
+public interface OrderRepository extends JpaRepository<OrderEnt, Long> {
 
 }

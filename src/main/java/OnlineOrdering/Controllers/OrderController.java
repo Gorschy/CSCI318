@@ -1,4 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Controllers;
+import OnlineOrdering.Models.*;
+import OnlineOrdering.ModelAssemblers.*;
+import OnlineOrdering.Repositories.*;
+import OnlineOrdering.ErrorHandling.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class OrderController {
+public class OrderController {
     //repositories required
     private final OrderRepository oRepository;
     private final CustomerRepository cRepository;
@@ -47,7 +51,7 @@ class OrderController {
 
     //find all orders currently in the system
     @GetMapping("/orders")
-    CollectionModel<EntityModel<OrderEnt>> all() {
+    public CollectionModel<EntityModel<OrderEnt>> all() {
         List<EntityModel<OrderEnt>> orders = oRepository.findAll().stream().map(oModelAssembler::toModel).collect(Collectors.toList());
 
         return CollectionModel.of(orders,
@@ -56,7 +60,7 @@ class OrderController {
 
     //find one order by orderId
     @GetMapping("/order/{id}")
-    EntityModel<OrderEnt> one(@PathVariable("id") Long id) {
+    public EntityModel<OrderEnt> one(@PathVariable("id") Long id) {
         OrderEnt order = oRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
         
         return oModelAssembler.toModel(order);

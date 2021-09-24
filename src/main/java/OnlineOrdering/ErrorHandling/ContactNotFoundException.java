@@ -1,8 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.ErrorHandling;
 
-class ContactNotFoundException extends RuntimeException {
+public class ContactNotFoundException extends RuntimeException {
 
-  ContactNotFoundException(Long id) {
+  public ContactNotFoundException(Long id) {
     super("Could not find customer contact with following id " + id);
   }
 }

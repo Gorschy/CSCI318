@@ -1,4 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Controllers;
+import OnlineOrdering.Models.*;
+import OnlineOrdering.ModelAssemblers.*;
+import OnlineOrdering.Repositories.*;
+import OnlineOrdering.ErrorHandling.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class ProductDetailController {
+public class ProductDetailController {
 
   private final ProductDetailRepository repository;
   private final ProductDetailModelAssembler assembler;
@@ -32,7 +36,7 @@ class ProductDetailController {
   // Aggregate root
   // tag::get-aggregate-root[]
   @GetMapping("/productDetails")
-  CollectionModel<EntityModel<ProductDetail>> all() {
+  public CollectionModel<EntityModel<ProductDetail>> all() {
 
     List<EntityModel<ProductDetail>> productDetail = repository.findAll().stream() //
         .map(assembler::toModel) //
@@ -42,7 +46,7 @@ class ProductDetailController {
   }
   // Single item
   @GetMapping("/productDetails/{id}")
-  EntityModel<ProductDetail> one(@PathVariable Long id) {
+  public EntityModel<ProductDetail> one(@PathVariable Long id) {
 
     ProductDetail productDetail = repository.findById(id) //
         .orElseThrow(() -> new ProductDetailNotFoundException(id));

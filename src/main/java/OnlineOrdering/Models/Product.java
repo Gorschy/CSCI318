@@ -1,4 +1,5 @@
-package OnlineOrdering;
+package OnlineOrdering.Models;
+
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-class Product {
+public class Product {
     private @Id @GeneratedValue long prodId;
     private String productCategory;
     private String name;
@@ -17,9 +18,9 @@ class Product {
     private ProductDetail productDetail;
 
     //constructors
-    Product() {}
+    public Product() {}
     
-    Product(String productCategory, String name, double price, int stockQuantity) {
+    public Product(String productCategory, String name, double price, int stockQuantity) {
     	this.productCategory = productCategory;
     	this.name = name;
     	this.price = price;

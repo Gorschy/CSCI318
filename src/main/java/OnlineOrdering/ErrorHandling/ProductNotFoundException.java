@@ -1,8 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.ErrorHandling;
 
-class ProductNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends RuntimeException {
 
-    ProductNotFoundException(Long id) {
+  public ProductNotFoundException(Long id) {
     super("Could not find product " + id);
   }
 }

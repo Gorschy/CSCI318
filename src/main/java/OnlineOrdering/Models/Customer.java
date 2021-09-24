@@ -1,4 +1,4 @@
-package OnlineOrdering;
+package OnlineOrdering.Models;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-class Customer {
+public class Customer {
     private @Id @GeneratedValue long custId;
     private String companyName;
     private String address;
@@ -18,8 +18,8 @@ class Customer {
     private Contact contact;
 
     //constructors
-    Customer() {}
-    Customer(String companyName, String address, String country) {
+    public Customer() {}
+    public Customer(String companyName, String address, String country) {
         this.companyName = companyName;
         this.address = address;
         this.country = country;

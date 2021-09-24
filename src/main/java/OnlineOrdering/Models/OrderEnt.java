@@ -1,4 +1,4 @@
-package OnlineOrdering;
+package OnlineOrdering.Models;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-class OrderEnt { //can't use name OrderEnt as it is resevered for other things in the spring framework, see: https://stackoverflow.com/questions/24060498/org-hibernate-exception-sqlgrammarexception-could-not-prepare-statement
+public class OrderEnt { //can't use name OrderEnt as it is resevered for other things in the spring framework, see: https://stackoverflow.com/questions/24060498/org-hibernate-exception-sqlgrammarexception-could-not-prepare-statement
     private @Id @GeneratedValue long orderId;
     private int quantity;
 
@@ -18,7 +18,7 @@ class OrderEnt { //can't use name OrderEnt as it is resevered for other things i
     private Product product;
 
     //constructors
-    OrderEnt() {}//blank constructor as all variables should be defined AFTER order object is created
+    public OrderEnt() {}//blank constructor as all variables should be defined AFTER order object is created
 
     //getter methods
     public Long getId() {

@@ -1,4 +1,4 @@
-package OnlineOrdering;
+package OnlineOrdering.Models;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 
 @Entity
-class Contact {
+public class Contact {
 
   private @Id @GeneratedValue Long contId;
   private String name;
@@ -16,9 +16,9 @@ class Contact {
   private String email;
   private String position;
 
-  Contact() {}
+  public Contact() {}
 
-  Contact(String name, long phone, String email, String position) {
+  public Contact(String name, long phone, String email, String position) {
     this.name = name;
     this.phone = phone;
     this.email = email;

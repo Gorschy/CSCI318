@@ -1,8 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.ErrorHandling;
 
-class OrderBadRequestException extends RuntimeException {
+public class OrderBadRequestException extends RuntimeException {
 
-    OrderBadRequestException(String message) {
+  public OrderBadRequestException(String message) {
     super(message);
   }
 }

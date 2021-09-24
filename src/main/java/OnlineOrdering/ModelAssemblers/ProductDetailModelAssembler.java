@@ -1,4 +1,6 @@
-package OnlineOrdering;
+package OnlineOrdering.ModelAssemblers;
+import OnlineOrdering.Models.ProductDetail;
+import OnlineOrdering.Controllers.ProductDetailController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -7,7 +9,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 @Component
-class ProductDetailModelAssembler implements RepresentationModelAssembler<ProductDetail, EntityModel<ProductDetail>> {
+public class ProductDetailModelAssembler implements RepresentationModelAssembler<ProductDetail, EntityModel<ProductDetail>> {
 
   @Override
   public EntityModel<ProductDetail> toModel(ProductDetail productDetail) {

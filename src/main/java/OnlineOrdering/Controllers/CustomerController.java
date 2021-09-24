@@ -1,4 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Controllers;
+import OnlineOrdering.Models.*;
+import OnlineOrdering.ModelAssemblers.*;
+import OnlineOrdering.Repositories.*;
+import OnlineOrdering.ErrorHandling.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class CustomerController {
+public class CustomerController {
     private final CustomerRepository custRepository;
     private final ContactRepository contRepository;
     private final CustomerModelAssembler custAssembler;
@@ -33,7 +37,7 @@ class CustomerController {
 
     // find all customers in system 
     @GetMapping("/customers")
-    CollectionModel<EntityModel<Customer>> all(){
+    public CollectionModel<EntityModel<Customer>> all(){
         List<EntityModel<Customer>> customers = custRepository.findAll().stream().map(custAssembler::toModel).collect(Collectors.toList());
 
         return CollectionModel.of(customers,
@@ -42,7 +46,7 @@ class CustomerController {
 
     // find one customer in system by id
     @GetMapping("/customers/{id}")
-    EntityModel<Customer> one(@PathVariable Long id){
+    public EntityModel<Customer> one(@PathVariable Long id){
         Customer customer = custRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
 
         return custAssembler.toModel(customer);

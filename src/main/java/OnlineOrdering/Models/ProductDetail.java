@@ -1,4 +1,4 @@
-package OnlineOrdering;
+package OnlineOrdering.Models;
 
 import java.util.Objects;
 
@@ -8,15 +8,15 @@ import javax.persistence.Id;
 
 
 @Entity
-class ProductDetail {
+public class ProductDetail {
 
   private @Id @GeneratedValue Long productDetailId;
   private String description;
   private String comment;
 
-  ProductDetail() {}
+  public ProductDetail() {}
 
-  ProductDetail(String description, String comment) {
+  public ProductDetail(String description, String comment) {
     this.description = description;
     this.comment = comment;
   }

@@ -1,7 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Repositories;
+import OnlineOrdering.Models.Contact;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface ContactRepository extends JpaRepository<Contact, Long> {
+public interface ContactRepository extends JpaRepository<Contact, Long> {
 
 }

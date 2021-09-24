@@ -1,8 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.ErrorHandling;
 
-class ProductDetailNotFoundException extends RuntimeException {
+public class ProductDetailNotFoundException extends RuntimeException {
 
-  ProductDetailNotFoundException(Long id) {
+  public ProductDetailNotFoundException(Long id) {
     super("Could not find product detail with following id " + id);
   }
 }

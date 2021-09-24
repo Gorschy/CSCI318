@@ -1,4 +1,8 @@
-package OnlineOrdering;
+package OnlineOrdering.Controllers;
+import OnlineOrdering.Models.*;
+import OnlineOrdering.ModelAssemblers.*;
+import OnlineOrdering.Repositories.*;
+import OnlineOrdering.ErrorHandling.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class ProductController {
+public class ProductController {
     private final ProductRepository prodRepository;
     private final ProductDetailRepository prodDetailRepository;
     private final ProductModelAssembler prodAssembler;
@@ -34,7 +38,7 @@ class ProductController {
 
     // find all product in system 
     @GetMapping("/products")
-    CollectionModel<EntityModel<Product>> all(){
+    public CollectionModel<EntityModel<Product>> all(){
         List<EntityModel<Product>> product = prodRepository.findAll().stream().map(prodAssembler::toModel).collect(Collectors.toList());
 
         return CollectionModel.of(product,
@@ -43,7 +47,7 @@ class ProductController {
 
     // find one product in system by id
     @GetMapping("/products/{id}")
-    EntityModel<Product> one(@PathVariable Long id){
+    public EntityModel<Product> one(@PathVariable Long id){
     	Product product = prodRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 
         return prodAssembler.toModel(product);

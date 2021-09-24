@@ -1,4 +1,7 @@
-package OnlineOrdering;
+package OnlineOrdering.ModelAssemblers;
+import OnlineOrdering.Models.Customer;
+import OnlineOrdering.Controllers.CustomerController;
+
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -7,7 +10,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 @Component
-class CustomerModelAssembler implements RepresentationModelAssembler<Customer, EntityModel<Customer>>{
+public class CustomerModelAssembler implements RepresentationModelAssembler<Customer, EntityModel<Customer>>{
     @Override
     public EntityModel<Customer> toModel(Customer customer){
         return EntityModel.of(customer,
