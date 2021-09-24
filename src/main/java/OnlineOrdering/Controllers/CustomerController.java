@@ -48,25 +48,54 @@ class CustomerController {
         return custAssembler.toModel(customer);
     }
 
-    // create a new customer
-    @PostMapping("/customers")
-    ResponseEntity<?> newCustomer(@RequestBody Customer newCustomer){
-        EntityModel<Customer> entityModel = custAssembler.toModel(custRepository.save(newCustomer));
+    // create a new customer without a contact
+    @PostMapping("/customer/{companyName}/{address}/{country}") 
+    ResponseEntity<?> newCustomer(
+        @PathVariable String companyName,
+        @PathVariable String address,
+        @PathVariable String country
+    ) {
+        Customer newCustomer = new Customer(companyName, address, country);
 
+        EntityModel<Customer> entityModel = custAssembler.toModel(custRepository.save(newCustomer));
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+    // create a new customer with a contact
+    @PostMapping("/customer/{companyName}/{address}/{country}/{contId}") 
+    ResponseEntity<?> newCustomer(
+        @PathVariable String companyName,
+        @PathVariable String address,
+        @PathVariable String country,
+        @PathVariable Long contId
+        
+    ) {
+        Contact contact = contRepository.findById(contId).orElseThrow(() -> new ContactNotFoundException(contId));
+        Customer newCustomer = new Customer(companyName, address, country);
+
+        newCustomer.setContact(contact);
+
+        EntityModel<Customer> entityModel = custAssembler.toModel(custRepository.save(newCustomer));
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
-    // update an existing custoemr
-    @PutMapping("/customers/{id}")
-    ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id){
-        Customer updatedCustomer = custRepository.findById(id).map(customer -> {
+    // update an existing customer without a contact
+    @PutMapping("/customer/{custId}/{companyName}/{address}/{country}") 
+    ResponseEntity<?> updateCustomer(
+        @PathVariable Long custId,
+        @PathVariable String companyName,
+        @PathVariable String address,
+        @PathVariable String country
+    ) {
+        Customer newCustomer = new Customer(companyName, address, country);
+
+        Customer updatedCustomer = custRepository.findById(custId).map(customer -> {
             customer.setCompanyName(newCustomer.getCompanyName());
             customer.setAddress(newCustomer.getAddress());
             customer.setCountry(newCustomer.getCountry());
             customer.setContact(newCustomer.getContact());
             return custRepository.save(customer);
         }).orElseGet(() -> {
-            newCustomer.setId(id);
+            newCustomer.setId(custId);
             return custRepository.save(newCustomer);
         });
 
@@ -74,6 +103,36 @@ class CustomerController {
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+    // update an existing customer with a contact
+    @PutMapping("/customer/{custId}/{companyName}/{address}/{country}/{contId}") 
+    ResponseEntity<?> updateCustomer(
+        @PathVariable Long custId,
+        @PathVariable String companyName,
+        @PathVariable String address,
+        @PathVariable String country,
+        @PathVariable Long contId
+    ) {
+        Contact contact = contRepository.findById(contId).orElseThrow(() -> new ContactNotFoundException(contId));
+        Customer newCustomer = new Customer(companyName, address, country);
+
+        newCustomer.setContact(contact);
+
+        Customer updatedCustomer = custRepository.findById(custId).map(customer -> {
+            customer.setCompanyName(newCustomer.getCompanyName());
+            customer.setAddress(newCustomer.getAddress());
+            customer.setCountry(newCustomer.getCountry());
+            customer.setContact(newCustomer.getContact());
+            return custRepository.save(customer);
+        }).orElseGet(() -> {
+            newCustomer.setId(custId);
+            return custRepository.save(newCustomer);
+        });
+
+        EntityModel<Customer> entityModel = custAssembler.toModel(updatedCustomer);
+
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+
 
     // delete a customer based on id
     @DeleteMapping("/customers/{id}")
@@ -87,7 +146,7 @@ class CustomerController {
     @PutMapping("/customers/{custId}/contact/{contId}")
     ResponseEntity<?> joinContactCustomer(@PathVariable("custId") Long custId, @PathVariable("contId") Long contId){
         Customer customer = custRepository.findById(custId).orElseThrow(() -> new CustomerNotFoundException(custId));
-        Contact contact = contRepository.findById(contId).orElseThrow(() -> new CustomerNotFoundException(contId));
+        Contact contact = contRepository.findById(contId).orElseThrow(() -> new ContactNotFoundException(contId));
 
         customer.setContact(contact);
         custRepository.save(customer);

@@ -46,6 +46,10 @@ class Product {
     public int getStockQuantity() {
     	return this.stockQuantity;
     }
+        
+    public ProductDetail getProductDetail() {
+    	return this.productDetail;
+    }
    
 
     //setter methods
@@ -93,6 +97,6 @@ class Product {
     }
     @Override
     public String toString() {
-        return "Product{" + "id=" + this.prodId + ", Product Category='" + this.productCategory + '\'' + ", name='" + this.name + '\'' + ", price='" + this.price  + '\'' + ", Stock Quantity='" + this.stockQuantity + '\''  + '}';
+        return "Product{" + "id=" + this.prodId + ", Product Category='" + this.productCategory + '\'' + ", name='" + this.name + '\'' + ", price='" + this.price  + '\'' + ", Stock Quantity='" + this.stockQuantity + '\''  + ", Product Detail='" + this.productDetail + '\''  +'}';
         }
 }

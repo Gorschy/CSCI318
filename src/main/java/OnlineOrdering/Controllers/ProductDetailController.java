@@ -40,14 +40,6 @@ class ProductDetailController {
 
     return CollectionModel.of(productDetail, linkTo(methodOn(ProductDetailController.class).all()).withSelfRel());
   }
-
-
-  // end::get-aggregate-root[]
-  @PostMapping("/productDetails")
-  ProductDetail newProductDetail(@RequestBody ProductDetail newProductDetail) {
-    return repository.save(newProductDetail);
-  }
-
   // Single item
   @GetMapping("/productDetails/{id}")
   EntityModel<ProductDetail> one(@PathVariable Long id) {
@@ -58,11 +50,26 @@ class ProductDetailController {
     return assembler.toModel(productDetail);
   }
 
+  // create a new product Detail
+  @PostMapping("/productDetails/{description}/{comment}")
+  ProductDetail newProductDetail(
+    @PathVariable String description,
+    @PathVariable String comment
+  ) {
+    ProductDetail newProductDetail = new ProductDetail(description, comment);
 
+    return repository.save(newProductDetail);
+  }
 
-  @PutMapping("/productDetails/{id}")
-  ProductDetail replaceProductDetail(@RequestBody ProductDetail newProductDetail, @PathVariable Long id) {
-    
+  // update an existing productDetail
+  @PutMapping("/productDetails/{id}/{description}/{comment}")
+  ProductDetail newProductDetail(
+    @PathVariable Long id,
+    @PathVariable String description,
+    @PathVariable String comment
+  ) {
+    ProductDetail newProductDetail = new ProductDetail(description, comment);
+
     return repository.findById(id)
       .map(productDetail -> {
         productDetail.setDescription(newProductDetail.getDescription());

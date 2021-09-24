@@ -41,13 +41,6 @@ class ContactController {
     return CollectionModel.of(contact, linkTo(methodOn(ContactController.class).all()).withSelfRel());
   }
 
-
-  // end::get-aggregate-root[]
-  @PostMapping("/contacts")
-  Contact newContact(@RequestBody Contact newContact) {
-    return repository.save(newContact);
-  }
-
   // Single item
   @GetMapping("/contacts/{id}")
   EntityModel<Contact> one(@PathVariable Long id) {
@@ -58,11 +51,30 @@ class ContactController {
     return assembler.toModel(contact);
   }
 
+  // create a new contact
+  @PostMapping("/contact/{name}/{phone}/{email}/{position}")
+  Contact newContact(
+    @PathVariable String name,
+    @PathVariable Long phone,
+    @PathVariable String email,
+    @PathVariable String position
+  ) {
+    Contact newContact = new Contact(name, phone, email, position);
 
+    return repository.save(newContact);
+  }
 
-  @PutMapping("/contacts/{id}")
-  Contact replaceEmployee(@RequestBody Contact newContact, @PathVariable Long id) {
-    
+  //update an existing contact
+  @PutMapping("/contact/{id}/{name}/{phone}/{email}/{position}")
+  Contact updateContact(
+    @PathVariable Long id,
+    @PathVariable String name,
+    @PathVariable Long phone,
+    @PathVariable String email,
+    @PathVariable String position
+  ) {
+    Contact newContact = new Contact(name, phone, email, position);
+
     return repository.findById(id)
       .map(contact -> {
         contact.setName(newContact.getName());
@@ -77,6 +89,7 @@ class ContactController {
       });
   }
 
+  //delete a contact
   @DeleteMapping("/contacts/{id}")
   void deleteEmployee(@PathVariable Long id) {
     repository.deleteById(id);

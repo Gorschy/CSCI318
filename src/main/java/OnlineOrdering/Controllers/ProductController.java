@@ -49,30 +49,95 @@ class ProductController {
         return prodAssembler.toModel(product);
     }
 
-    // create a new product
-    @PostMapping("/products")
-    ResponseEntity<?> newProduct(@RequestBody Product newProduct){
+    // create a new product without productDetail
+    @PostMapping("/product/{category}/{name}/{price}/{quantity}")
+    ResponseEntity<?> newProduct(
+        @PathVariable String category,
+        @PathVariable String name,
+        @PathVariable double price,
+        @PathVariable int quantity
+    ) {
+        Product newProduct = new Product(category, name, price, quantity);
+
         EntityModel<Product> entityModel = prodAssembler.toModel(prodRepository.save(newProduct));
 
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+    // create a new product with productDetail
+    @PostMapping("/product/{category}/{name}/{price}/{quantity}/{detId}")
+    ResponseEntity<?> newProduct(
+        @PathVariable String category,
+        @PathVariable String name,
+        @PathVariable double price,
+        @PathVariable int quantity,
+        @PathVariable Long detId
+    ) {
+        Product newProduct = new Product(category, name, price, quantity);
 
-    // update an existing product
-    @PutMapping("/products/{id}")
-    ResponseEntity<?> replaceProduct(@RequestBody Product newProduct, @PathVariable Long id){
-    	Product updatedProduct = prodRepository.findById(id).map(product -> {
-    		product.setProductCategory(newProduct.getProductCategory());
-    		product.setName(newProduct.getName());
-    		product.setPrice(newProduct.getPrice());
-    		product.setStockQuantity(newProduct.getStockQuantity());
+        ProductDetail productDetail = prodDetailRepository.findById(detId).orElseThrow(() -> new ProductDetailNotFoundException(detId));
+        newProduct.setProductDetail(productDetail);
+
+        EntityModel<Product> entityModel = prodAssembler.toModel(prodRepository.save(newProduct));
+
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+    
+    // update an existing product without productDetail
+    @PutMapping("/product/{prodId}/{category}/{name}/{price}/{quantity}")
+    ResponseEntity<?> newProduct(
+        @PathVariable Long prodId,
+        @PathVariable String category,
+        @PathVariable String name,
+        @PathVariable double price,
+        @PathVariable int quantity
+    ) {
+        Product newProduct = new Product(category, name, price, quantity);
+
+        Product updatedProduct = prodRepository.findById(prodId).map(product -> {
+            product.setProductCategory(newProduct.getProductCategory());
+            product.setName(newProduct.getName());
+            product.setPrice(newProduct.getPrice());
+            product.setStockQuantity(newProduct.getStockQuantity());
+            product.setProductDetail(newProduct.getProductDetail());
             return prodRepository.save(product);
         }).orElseGet(() -> {
-            newProduct.setId(id);
+            newProduct.setId(prodId);
             return prodRepository.save(newProduct);
         });
 
         EntityModel<Product> entityModel = prodAssembler.toModel(updatedProduct);
+    
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+    // update an existing product with productDetail
+    @PutMapping("/product/{prodId}/{category}/{name}/{price}/{quantity}/{detId}")
+    ResponseEntity<?> newProduct(
+        @PathVariable Long prodId,
+        @PathVariable String category,
+        @PathVariable String name,
+        @PathVariable double price,
+        @PathVariable int quantity,
+        @PathVariable Long detId
+    ) {
+        Product newProduct = new Product(category, name, price, quantity);
 
+        ProductDetail productDetail = prodDetailRepository.findById(detId).orElseThrow(() -> new ProductDetailNotFoundException(detId));
+        newProduct.setProductDetail(productDetail);
+
+        Product updatedProduct = prodRepository.findById(prodId).map(product -> {
+            product.setProductCategory(newProduct.getProductCategory());
+            product.setName(newProduct.getName());
+            product.setPrice(newProduct.getPrice());
+            product.setStockQuantity(newProduct.getStockQuantity());
+            product.setProductDetail(newProduct.getProductDetail());
+            return prodRepository.save(product);
+        }).orElseGet(() -> {
+            newProduct.setId(prodId);
+            return prodRepository.save(newProduct);
+        });
+
+        EntityModel<Product> entityModel = prodAssembler.toModel(updatedProduct);
+    
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
