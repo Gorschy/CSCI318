@@ -40,7 +40,7 @@ public class OrderService {
 
     // Get list of all customers
     List<Customer> getCustomers() {
-        List<Customer> customers = restTemplate.getForObject("http://localhost:8081/customers", List<Customer>.class);
+        List<Customer> customers = restTemplate.getForObject("http://localhost:8081/customers", List.class);
         return customers;
     }
     
