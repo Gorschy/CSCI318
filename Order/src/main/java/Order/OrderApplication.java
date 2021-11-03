@@ -24,16 +24,14 @@ public class OrderApplication {
 		return builder.build();
 	}
 
+	
 	// in here I want to create a bunch of order objects every 2 seconds
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate, StreamBridge streamBridge) throws Exception {
 		return args -> {
 			try {
 				while (!Thread.currentThread().isInterrupted()){
-					Long custId = 1l;
-					Long prodId = 1l;
-					Long quantity = 10l;
-					OrderEntity order = new OrderEntity(custId, prodId, quantity);
+					OrderEntity order = restTemplate.getForObject("http://localhost:8080/orders/random", OrderEntity.class);
 					assert order != null;
 					log.info(order.toString());
 					//The binder name "order-outbound" is defined in the application.yml.

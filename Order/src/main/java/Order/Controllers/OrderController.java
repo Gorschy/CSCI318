@@ -63,5 +63,8 @@ class OrderController {
     }
 
     //create a random object
-    //@PostMapping("/orders/random")
+    @GetMapping("/orders/random")
+    OrderEntity createRandomOrder() {
+        return service.createRandomOrder();
+    }
 }

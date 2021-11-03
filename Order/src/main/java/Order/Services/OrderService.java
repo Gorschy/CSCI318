@@ -4,6 +4,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Random;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -39,9 +41,26 @@ public class OrderService {
     }
 
     // Get list of all customers
-    List<Customer> getCustomers() {
-        List<Customer> customers = restTemplate.getForObject("http://localhost:8081/customers", List.class);
+    Customer[] getCustomers() {
+        /*
+        CustomerWrapper response = restTemplate.getForObject("http://localhost:8081/customers", CustomerWrapper.class);
+        List<Customer> customers = response.getCustomers();
+        return customers;*/
+
+        ResponseEntity<Customer[]> response = restTemplate.getForEntity("http://localhost:8081/customers",Customer[].class);
+        Customer[] customers = response.getBody();
         return customers;
+}
+    // Get list of all products
+    Product[] getProducts() {
+        /*
+        ProductWrapper response = restTemplate.getForObject("http://localhost:8082/products", ProductWrapper.class);
+        List<Product> products = response.getProducts();
+        return products;*/
+
+        ResponseEntity<Product[]> response = restTemplate.getForEntity("http://localhost:8082/products",Product[].class);
+        Product[] products = response.getBody();
+        return products;
     }
     
     // find all orders in the system and return a list of orders
@@ -75,5 +94,22 @@ public class OrderService {
     // Delete a order entity based on id
     void deleteOrder(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    //create a random order entity using existing customers and products
+    OrderEntity createRandomOrder() {
+        Random rand = new Random();
+        
+        Customer[] customers = getCustomers();
+        Customer customer = customers[rand.nextInt(customers.length)];
+
+        Product[] products = getProducts();
+        Product product = products[rand.nextInt(products.length)];
+
+        Long quantity = Math.abs(1 + ((long)rand.nextLong()%(product.getStockQuantity()-1)));
+
+        OrderEntity order = new OrderEntity(customer.getId(), product.getId(), quantity);
+
+        return orderRepository.save(order);
     }
 }
