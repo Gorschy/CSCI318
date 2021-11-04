@@ -11,7 +11,7 @@ class Product {
     private String productCategory;
     private String name;
     private double price;
-    private int stockQuantity;
+    private Long stockQuantity;
  
     @OneToOne
     private ProductDetail productDetail;
@@ -19,7 +19,7 @@ class Product {
     //constructors
     Product() {}
     
-    Product(String productCategory, String name, double price, int stockQuantity) {
+    Product(String productCategory, String name, double price, Long stockQuantity) {
     	this.productCategory = productCategory;
     	this.name = name;
     	this.price = price;
@@ -43,7 +43,7 @@ class Product {
     	return this.price;
     }
     
-    public int getStockQuantity() {
+    public Long getStockQuantity() {
     	return this.stockQuantity;
     }
 
@@ -69,7 +69,7 @@ class Product {
     	this.price = price;
     }
     
-    public void setStockQuantity (int stockQuantity) {
+    public void setStockQuantity (Long stockQuantity) {
     	this.stockQuantity = stockQuantity;
     }
     

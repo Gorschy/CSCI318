@@ -17,6 +17,9 @@ class LoadDatabase {
     return args -> {
       log.info("Preloading " + custRepository.save(new Customer("Fake Company", "123 Fake Street", "Australia")));
       log.info("Preloading " + custRepository.save(new Customer("Not Real Company", "456 Not Real Avenue", "America")));
+      log.info("Preloading " + custRepository.save(new Customer("Not a real company", "789 Fake Street", "A European Country")));
+      log.info("Preloading " + custRepository.save(new Customer("Try and find this company", "123 not-real Street", "America")));
+      log.info("Preloading " + custRepository.save(new Customer("Seriously, this company doest exist", "nowhere", "Finnland")));
       log.info("Preloading " + contRepository.save(new Contact("Test Name", 412345678L, "fake@email.com", "Role")));
       log.info("Preloading " + contRepository.save(new Contact("Tester Namer", 412345678L, "not_real@email.com", "Position")));
     };

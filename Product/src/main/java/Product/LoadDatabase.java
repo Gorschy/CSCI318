@@ -15,8 +15,11 @@ class LoadDatabase {
   CommandLineRunner initDatabase(ProductRepository prodRepository, ProductDetailRepository prodDetailRepository) {
     //String companyName, String address, String country
     return args -> {
-      log.info("Preloading " + prodRepository.save(new Product("Food", "KekW Cereal", 3.45, 24)));
-      log.info("Preloading " + prodRepository.save(new Product("Drink", "Mountain Dew", 2, 120)));
+      log.info("Preloading " + prodRepository.save(new Product("Food", "KekW Cereal", 3.45, 24l)));
+      log.info("Preloading " + prodRepository.save(new Product("Drink", "Mountain Dew", 2, 120l)));
+      log.info("Preloading " + prodRepository.save(new Product("Food", "Choccy bar", 2, 240l)));
+      log.info("Preloading " + prodRepository.save(new Product("Tool", "hammer", 20, 12000l)));
+      log.info("Preloading " + prodRepository.save(new Product("Alcohol", "whiskey", 35, 150l)));
       log.info("Preloading " + prodDetailRepository.save(new ProductDetail("Food Description", "A Comment about a food")));
       log.info("Preloading " + prodDetailRepository.save(new ProductDetail("Drink Description", "A Comment about a drink")));
     };
