@@ -33,9 +33,13 @@ public class OrderApplication {
 				while (!Thread.currentThread().isInterrupted()){
 					OrderEntity order = restTemplate.getForObject("http://localhost:8080/orders/random", OrderEntity.class);
 					assert order != null;
-					log.info(order.toString());
+					
+					double price = order.getQuantity() * restTemplate.getForObject("http://localhost:8082/products/" + Long.toString(order.getProdId()), Product.class).getPrice();
+					OrderEvent orderEvent = new OrderEvent(order.getCustId(), order.getProdId(), order.getQuantity(), price);
+
+					log.info(orderEvent.toString());
 					//The binder name "order-outbound" is defined in the application.yml.
-					streamBridge.send("order-outbound", order);
+					streamBridge.send("order-outbound", orderEvent);
 					Thread.sleep(2000);
 				}
 			}
