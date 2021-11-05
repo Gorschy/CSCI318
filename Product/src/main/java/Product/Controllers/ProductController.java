@@ -23,7 +23,7 @@ class ProductController {
     @Autowired
     ProductService service;
 
-    // find all product in system 
+    // find all product in system
     @GetMapping("/products")
     List<Product> all(){
         return service.all();
@@ -52,11 +52,11 @@ class ProductController {
     void deleteProduct(@PathVariable Long id){
     	service.deleteProduct(id);
     }
-    
-    // join a contact object to a customer object
+
+    // join a product object to a productDetails object
     @PutMapping("/products/{prodId}/productDetails/{prodDetailId}")
     Product joinProductDetail(@PathVariable("prodId") Long prodId, @PathVariable("prodDetailId") Long prodDetailId){
         return service.joinProductDetail(prodId, prodDetailId);
     }
-    
+
 }
