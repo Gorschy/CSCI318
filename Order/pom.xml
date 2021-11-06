@@ -61,16 +61,6 @@
             <type>test-jar</type>
         </dependency>
 
-		<dependency>
-			<groupId>Customer</groupId>
-			<artifactId>Customer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>Product</groupId>
-			<artifactId>Product</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
         <dependencies>
