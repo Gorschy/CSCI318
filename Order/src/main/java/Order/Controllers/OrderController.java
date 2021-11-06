@@ -67,4 +67,17 @@ class OrderController {
     OrderEntity createRandomOrder() {
         return service.createRandomOrder();
     }
+
+    @GetMapping("/orders/customerOrders/{custId}")
+    List<OrderEntity> findCustomerOrders(@PathVariable Long custId) {
+        return service.findCustomerOrders(custId);
+    }
+    @GetMapping("/orders/customerValue/{custId}")
+    CustomerValue findCustomerValue(@PathVariable Long custId) {
+        return service.findCustomerValue(custId);
+    }
+    @GetMapping("/orders/orderedQuantity")
+    List<OrderedQuantity> findOrderedQuantity() {
+        return service.findOrderedQuantity();
+    }
 }

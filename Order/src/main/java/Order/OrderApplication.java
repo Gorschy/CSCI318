@@ -40,7 +40,7 @@ public class OrderApplication {
 					log.info(orderEvent.toString());
 					//The binder name "order-outbound" is defined in the application.yml.
 					streamBridge.send("order-outbound", orderEvent);
-					Thread.sleep(2000);
+					Thread.sleep(500);
 				}
 			}
 			catch(InterruptedException ignored){}

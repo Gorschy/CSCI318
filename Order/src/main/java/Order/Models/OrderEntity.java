@@ -2,15 +2,21 @@ package OrderEntity;
 
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "ORDERENTITY")
+
 public class OrderEntity {
     private @Id @GeneratedValue Long id;
+
+    @Column(columnDefinition="BIGINT")
     private Long custId;
+
+    @Column(columnDefinition="BIGINT")
     private Long prodId;
+    
+    @Column(columnDefinition="BIGINT")
     private Long quantity;
 
     OrderEntity(){}

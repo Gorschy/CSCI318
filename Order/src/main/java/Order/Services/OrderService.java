@@ -3,8 +3,11 @@ package OrderEntity;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.Random;
+import java.util.HashSet;
+import java.util.HashSet.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.springframework.hateoas.CollectionModel;
@@ -111,5 +114,79 @@ public class OrderService {
         OrderEntity order = new OrderEntity(customer.getId(), product.getId(), quantity);
 
         return orderRepository.save(order);
+    }
+
+    // get customer total value and product list
+    List<OrderEntity> findCustomerOrders(Long custId) {
+        return orderRepository.findByCustId(custId);
+    }
+
+    List<Product> ordersToProducts(List<OrderEntity> orders) {
+        List<Product> products = new ArrayList<>();
+        for(OrderEntity o : orders){
+            Product p = getProductById(o.getProdId());
+            products.add(p);
+        }
+        return products;
+    }
+
+    double getValueOrder(OrderEntity order) {
+        Long quantity = order.getQuantity();
+        double singlePrice = getProductById(order.getProdId()).getPrice();
+        return quantity * singlePrice;
+    }
+
+    CustomerValue findCustomerValue(Long custId) {
+        List<OrderEntity> orders = findCustomerOrders(custId);
+        
+        double value = 0;
+        for(OrderEntity o : orders)
+            value += getValueOrder(o);
+
+        List<Product> products = ordersToProducts(orders);
+        HashSet<Product> productsSet = new HashSet<>(products);
+        products.clear();
+        products.addAll(productsSet);
+
+        CustomerValue customer = new CustomerValue(products, value);
+        return customer;
+    }
+
+
+    // loop through all products, add them to a list of ordered products if they have been ordered 
+    List<Product> findOrderedProducts() {
+        List<Product> ordered = new ArrayList<>();
+        for(Product p : getProducts()) {
+            if(hasBeenOrdered(p.getId()))
+                ordered.add(p);
+        }
+        return ordered;
+    }
+
+    boolean hasBeenOrdered(Long prodId) {
+        if(orderRepository.findByProdId(prodId).size() > 0)
+            return true;
+        return false;
+    }
+
+    Long findQuantityOrdered(Long prodId) {
+        List<OrderEntity> orders = orderRepository.findByProdId(prodId);
+        Long quantity = 0l;
+
+        for(OrderEntity o : orders)
+            quantity += o.getQuantity();
+
+        return quantity;
+    }
+
+    List<OrderedQuantity> findOrderedQuantity() {
+        List<OrderedQuantity> oq = new ArrayList<>();
+        List<Product> ordered = findOrderedProducts();
+        for(Product p : ordered) {
+            Long q = findQuantityOrdered(p.getId());
+            OrderedQuantity temp = new OrderedQuantity(p, q);
+            oq.add(temp);
+        }
+        return oq;
     }
 }
